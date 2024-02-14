@@ -120,3 +120,28 @@ function addEvents(){
 addColumns(cityPop); //call the addColumns function
 addEvents(); //call the addEvents function
 
+
+//define callback function
+function debugCallback(response){
+    document.querySelector("#myDiv").insertAdjacentHTML('beforeend', '<br>GeoJSON data:</br>' + JSON.stringify(response)); //myData is not defined in this function
+};
+
+function debugAjax(){ //define function to fetch data and handle it
+    var myData
+
+    //use Fetch to retrieve data from 'data/map.geojson'
+    fetch('data/map.geojson') //fetch() request returns a full response object
+        .then(function(response){
+			return response.json(); //parse response as JSON
+		})
+		.then(function(response){
+			myData = response; //store the parsed JSON response in myData variable
+            console.log('This is the data:',myData) //log the data to the console 
+			debugCallback(myData) //call debugCallback function 
+		});
+
+	console.log('This is undefined:', myData); //log 'undefined' to the console
+
+};
+
+window.onload = debugAjax; //call the debugAjax function when the window is fully loaded
